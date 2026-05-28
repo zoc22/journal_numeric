@@ -14,6 +14,7 @@
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.3",
         "laravel/tinker": "^2.10.1",
+        "modules/core": "*",
         "ramsey/uuid": "^4.9",
         "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-permission": "^7.4",
@@ -34,7 +35,10 @@
             "Modules\\": "app-modules/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "app-modules/Core/Helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -89,7 +93,8 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true,
             "php-http/discovery": true
-        }
+        },
+        "process-timeout": 3000
     },
     "minimum-stability": "stable",
     "prefer-stable": true,

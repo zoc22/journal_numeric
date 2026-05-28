@@ -11,10 +11,15 @@
         <testsuite name="Feature">
             <directory>tests/Feature</directory>
         </testsuite>
+        <!-- Ajout du module Core -->
+        <testsuite name="Core Module">
+            <directory>app-modules/Core/Tests</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
             <directory>app</directory>
+            <directory>app-modules</directory>
         </include>
     </source>
     <php>

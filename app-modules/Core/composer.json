@@ -1,0 +1,10 @@
+{
+    "name": "modules/core",
+    "description": "Core module for the application.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Core\\": ""
+        }
+    }
+}
