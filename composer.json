@@ -13,8 +13,10 @@
         "internachi/modular": "^3.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.3",
+        "laravel/socialite": "*",
         "laravel/tinker": "^2.10.1",
         "modules/core": "*",
+        "modules/user": "*",
         "ramsey/uuid": "^4.9",
         "spatie/laravel-activitylog": "^4.12",
         "spatie/laravel-permission": "^7.4",
@@ -96,7 +98,7 @@
         },
         "process-timeout": 3000
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
         {

@@ -26,28 +26,28 @@ class HasPermissionsTest extends TestCase
     public function it_checks_permissions_via_gate()
     {
         $model = new PermissionsTestModel();
-        
+
         Gate::shouldReceive('forUser')
             ->with($model)
             ->andReturnSelf();
-        
+
         Gate::shouldReceive('allows')
             ->with('edit-posts')
             ->andReturn(true);
 
-        $this->assertTrue($model->hasPermission('edit-posts'));
+        $this->assertTrue($model->hasPermissionViaGate('edit-posts'));
     }
 
     /** @test */
     public function it_falls_back_to_can_method()
     {
         $model = new PermissionsTestModel();
-        
+
         Gate::shouldReceive('forUser')->andReturnSelf();
         Gate::shouldReceive('allows')->andReturn(false);
 
-        $this->assertTrue($model->hasPermission('allowed'));
-        $this->assertFalse($model->hasPermission('denied'));
+        $this->assertTrue($model->hasPermissionViaGate('allowed'));
+        $this->assertFalse($model->hasPermissionViaGate('denied'));
     }
 
     /** @test */

@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->alias([
+            'tenant' => \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
+        ]);
         $middleware->appendToGroup('web', [
             \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
         ]);

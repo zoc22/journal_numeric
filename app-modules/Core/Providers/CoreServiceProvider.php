@@ -91,7 +91,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     protected function loadMigrations(): void
     {
-        $migrationPath = module_path($this->moduleName, 'Database/Migrations');
+        $migrationPath = module_path($this->moduleName, 'database/migrations');
         if (is_dir($migrationPath)) {
             $this->loadMigrationsFrom($migrationPath);
         }

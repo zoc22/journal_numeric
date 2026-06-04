@@ -26,7 +26,8 @@ class PermissionMiddleware
         $user = Auth::user();
 
         // Si l'utilisateur n'est pas connecté ou n'a pas la permission, on bloque.
-        if (!$user || !$user->hasPermission($permission)) {
+        // Utilise la méthode hasPermissionViaGate du trait HasPermissions pour vérifier via Gate
+        if (!$user || !$user->hasPermissionViaGate($permission)) {
             abort(403, "Vous n'avez pas la permission '{$permission}'.");
         }
 

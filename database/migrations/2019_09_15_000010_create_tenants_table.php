@@ -26,7 +26,7 @@ class CreateTenantsTable extends Migration
             $table->string('status')->default('pending');
             $table->timestamp('expires_at')->nullable();
             $table->json('settings')->nullable();
-            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignUuid('created_by')->nullable()->constrained('users');
             // =====================================
 
             $table->timestamps();
