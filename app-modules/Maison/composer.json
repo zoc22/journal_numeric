@@ -1,0 +1,28 @@
+{
+    "name": "modules/maison",
+    "description": "Module de gestion des maisons d'édition",
+    "type": "laravel-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Platform Team",
+            "email": "dev@platform.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "modules/core": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Maison\\": ""
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Maison\\Providers\\MaisonServiceProvider"
+            ]
+        }
+    }
+}

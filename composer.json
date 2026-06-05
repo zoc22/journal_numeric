@@ -16,6 +16,7 @@
         "laravel/socialite": "*",
         "laravel/tinker": "^2.10.1",
         "modules/core": "*",
+        "modules/maison": "*",
         "modules/user": "*",
         "ramsey/uuid": "^4.9",
         "spatie/laravel-activitylog": "^4.12",

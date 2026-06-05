@@ -135,6 +135,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Relation avec les maisons d'édition (via pivot membre_maison).
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function membres()
+    {
+        return $this->hasMany(\Modules\Maison\Models\MembreMaison::class, 'utilisateur_id');
+    }
+
+    /**
      * Enregistre une connexion réussie.
      *
      * Crée une entrée dans login_histories et met à jour les champs
