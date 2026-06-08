@@ -13,12 +13,23 @@ use Modules\Core\Traits\HasAuditLog;
 use Modules\Core\Traits\HasUuid;
 use Modules\User\Models\User;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+
 // À décommenter quand les modules seront créés
 // use Modules\Article\Models\Article;
 // use Modules\Recruitment\Models\AppelCandidature;
 
 /**
  * Classe représentant une maison d'édition (tenant).
+ * 
+ * @property string $id
+ * @property string $nom
+ * @property string $slug
+ * @property string $description
+ * @property string|null $logo_url
+ * @property string $email_contact
+ * @property string $statut
+ * @property string $statut_libelle
  */
 class Maison extends Model
 {
@@ -197,6 +208,19 @@ class Maison extends Model
     // =========================================================================
     // MÉTHODES MÉTIER
     // =========================================================================
+
+    /**
+     * Accesseur : Récupère le libellé du statut.
+     *
+     * @return Attribute
+     */
+    protected function statutLibelle(): Attribute
+    {
+        return Attribute::get(function () {
+            $statuts = config('module.maison.statuts', []);
+            return $statuts[$this->statut] ?? $this->statut;
+        });
+    }
 
     /**
      * Active la maison d'édition.

@@ -27,8 +27,9 @@ class MaisonResource extends JsonResource
             'description' => $this->description,
             'logo_url' => $this->logo_url,
             'email_contact' => $this->email_contact,
+            // On utilise l'attribut calculé statut_libelle défini dans le modèle Maison
             'statut' => $this->when(!$request->routeIs('maison.public.*'), $this->statut),
-            'statut_libelle' => $this->when(!$request->routeIs('maison.public.*'), config("module.maison.statuts.{$this->statut}", $this->statut)),
+            'statut_libelle' => $this->when(!$request->routeIs('maison.public.*'), $this->statut_libelle),
             'validee_par' => $this->when(!$request->routeIs('maison.public.*') && $this->relationLoaded('validateur') && $this->validateur, function () {
                 return [
                     'id' => $this->validateur->id,
