@@ -1,0 +1,24 @@
+{
+	"name": "modules/article",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Article\\": "src/",
+			"Modules\\Article\\Tests\\": "tests/",
+			"Modules\\Article\\Database\\Factories\\": "database/factories/",
+			"Modules\\Article\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Article\\Providers\\ArticleServiceProvider"
+			]
+		}
+	}
+}

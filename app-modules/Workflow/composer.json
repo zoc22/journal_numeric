@@ -1,0 +1,24 @@
+{
+	"name": "modules/workflow",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Workflow\\": "src/",
+			"Modules\\Workflow\\Tests\\": "tests/",
+			"Modules\\Workflow\\Database\\Factories\\": "database/factories/",
+			"Modules\\Workflow\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Workflow\\Providers\\WorkflowServiceProvider"
+			]
+		}
+	}
+}

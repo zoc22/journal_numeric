@@ -6,10 +6,10 @@ use Stancl\Tenancy\Database\Models\Domain;
 use Stancl\Tenancy\Database\Models\Tenant;
 
 return [
-    'tenant_model' => \App\Models\Tenant::class,   // ← votre modèle personnalisé
+    'tenant_model' => \App\Models\Tenant::class,   // ← modèle personnalisé
     'id_generator' => Stancl\Tenancy\UUIDGenerator::class,
-    'domain_model' => \App\Models\Domain::class,   // ← votre modèle personnalisé
- 
+    'domain_model' => \App\Models\Domain::class,   // ← domaine personnalisé
+
     /**
      * The list of domains hosting your central app.
      *

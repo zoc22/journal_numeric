@@ -6,6 +6,7 @@ namespace Modules\User\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Modules\Core\Traits\HasUuid;
@@ -46,7 +47,7 @@ use Modules\Core\Traits\HasAuditLog;
  */
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, SoftDeletes, HasRoles, HasPermissions {
+    use HasApiTokens, Notifiable, SoftDeletes, HasRoles, HasPermissions, HasFactory {
         HasRoles::hasRole insteadof HasPermissions;
         HasRoles::hasAnyRole insteadof HasPermissions;
         HasRoles::assignRole insteadof HasPermissions;

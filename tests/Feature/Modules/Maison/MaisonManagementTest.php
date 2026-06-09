@@ -61,6 +61,9 @@ class MaisonManagementTest extends TestCase
         Permission::firstOrCreate(['name' => 'maison.rejeter', 'guard_name' => 'sanctum']);
         Permission::firstOrCreate(['name' => 'maison.supprimer', 'guard_name' => 'sanctum']);
 
+        // Créer le rôle lecteur qui est utilisé par UserObserver
+        Role::firstOrCreate(['name' => 'lecteur', 'guard_name' => 'sanctum']);
+
         // Assigner les permissions aux rôles
         $superAdminRole = Role::where('name', 'super_admin')->first();
         if ($superAdminRole) {
