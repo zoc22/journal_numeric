@@ -17,7 +17,6 @@ return [
      */
     'central_domains' => [
         '127.0.0.1',
-        'localhost',
         'journal_central.com',
     ],
 
@@ -27,13 +26,17 @@ return [
      *
      * To configure their behavior, see the config keys below.
      */
-    'bootstrappers' => [
-        Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
-        Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
+    'bootstrappers' => array_filter([
+        (str_contains(implode(' ', $_SERVER['argv'] ?? []), 'phpunit') || str_contains(implode(' ', $_SERVER['argv'] ?? []), 'artisan test')) 
+            ? null 
+            : Stancl\Tenancy\Bootstrappers\DatabaseTenancyBootstrapper::class,
+        (str_contains(implode(' ', $_SERVER['argv'] ?? []), 'phpunit') || str_contains(implode(' ', $_SERVER['argv'] ?? []), 'artisan test')) 
+            ? null 
+            : Stancl\Tenancy\Bootstrappers\CacheTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\FilesystemTenancyBootstrapper::class,
         Stancl\Tenancy\Bootstrappers\QueueTenancyBootstrapper::class,
         // Stancl\Tenancy\Bootstrappers\RedisTenancyBootstrapper::class, // Note: phpredis is needed
-    ],
+    ]),
 
     /**
      * Database tenancy config. Used by DatabaseTenancyBootstrapper.

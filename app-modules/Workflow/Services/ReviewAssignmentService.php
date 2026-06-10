@@ -181,6 +181,7 @@ class ReviewAssignmentService
             ->whereNotIn('statut', ['refuse', 'expire'])
             ->get();
 
+        /** @var ReviewAssignment $assignment */
         foreach ($assignments as $assignment) {
             if (!$assignment->feedbackEnvoye()) {
                 return false;

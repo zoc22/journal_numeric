@@ -285,7 +285,7 @@ class WorkflowTransitionTest extends TestCase
         $article = $this->creerArticleComplet($this->journaliste);
 
         $response = $this->actingAs($this->journaliste)
-            ->getJson("/api/workflow/article/{$article->id}/possible-transitions");
+            ->getJson("/api/workflow/transition/{$article->id}/possible");
 
         $response->assertStatus(200);
         $response->assertJsonPath('success', true);

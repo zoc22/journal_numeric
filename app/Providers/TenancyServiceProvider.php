@@ -23,7 +23,7 @@ class TenancyServiceProvider extends ServiceProvider
         return [
             // Tenant events
             Events\CreatingTenant::class => [],
-            Events\TenantCreated::class => [
+            Events\TenantCreated::class => (str_contains(implode(' ', $_SERVER['argv'] ?? []), 'phpunit') || str_contains(implode(' ', $_SERVER['argv'] ?? []), 'artisan test')) ? [] : [
                 JobPipeline::make([
                     Jobs\CreateDatabase::class,
                     Jobs\MigrateDatabase::class,

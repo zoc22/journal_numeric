@@ -16,11 +16,30 @@ class TestDatabaseSeeder extends Seeder
     {
         // Créer les permissions
         $permissions = [
+            // User management
             'user.manage',
-            'article.manage',
-            'maison.manage',
-            'reviewer.assign',
-            'article.validate',
+            
+            // Article management
+            'article.creer',
+            'article.modifier',
+            'article.supprimer',
+            'article.voir_historique',
+            
+            // Workflow
+            'workflow.transition',
+            'workflow.voir',
+            'workflow.valider_reviewer',
+            'workflow.valider_editeur',
+            'workflow.valider_directeur',
+            'workflow.valider_final',
+            'workflow.publier',
+            
+            // Review
+            'review.assigner',
+            'review.voir',
+            'review.supprimer',
+            'review.voir_historique',
+            'review.feedback',
         ];
 
         foreach ($permissions as $permission) {
@@ -34,7 +53,7 @@ class TestDatabaseSeeder extends Seeder
         $roles = [
             'super_admin' => 8,
             'admin_plateforme' => 7,
-            'editeur_en_chef' => 6,
+            'editeur_chef' => 6,
             'directeur_collection' => 5,
             'editeur_associe' => 4,
             'reviewer' => 3,
@@ -47,13 +66,39 @@ class TestDatabaseSeeder extends Seeder
                 'name' => $roleName,
                 'guard_name' => 'sanctum'
             ]);
+
+            // Assigner des permissions par défaut selon le rôle
+            if ($roleName === 'editeur_chef') {
+                $role->givePermissionTo($permissions);
+            } elseif ($roleName === 'directeur_collection') {
+                $role->givePermissionTo([
+                    'workflow.transition', 'workflow.voir', 'workflow.valider_directeur',
+                    'article.voir_historique', 'review.voir_historique', 'review.voir'
+                ]);
+            } elseif ($roleName === 'editeur_associe') {
+                $role->givePermissionTo([
+                    'article.creer', 'article.modifier', 'article.supprimer',
+                    'workflow.transition', 'workflow.voir', 'workflow.valider_editeur',
+                    'article.voir_historique', 'review.voir_historique', 'review.voir', 'review.assigner'
+                ]);
+            } elseif ($roleName === 'reviewer') {
+                $role->givePermissionTo([
+                    'workflow.transition', 'workflow.voir', 'workflow.valider_reviewer',
+                    'review.voir', 'review.feedback'
+                ]);
+            } elseif ($roleName === 'journaliste') {
+                $role->givePermissionTo([
+                    'article.creer', 'article.modifier', 'workflow.transition',
+                    'workflow.voir', 'article.voir_historique'
+                ]);
+            }
         }
 
-        // Assigner les permissions au rôle admin_plateforme
+        // Assigner toutes les permissions au rôle admin_plateforme
         /** @var Role|null $adminRole */
         $adminRole = Role::where('name', 'admin_plateforme')->first();
         if ($adminRole) {
-            $adminRole->givePermissionTo('user.manage');
+            $adminRole->givePermissionTo($permissions);
         }
 
         // Créer l'utilisateur admin pour les tests

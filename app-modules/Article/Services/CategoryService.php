@@ -112,7 +112,9 @@ class CategoryService
         $cacheKey = $maisonId ? "categories.tree.{$maisonId}" : "categories.tree.global";
 
         $cache = Cache::store();
-        if ($cache->supportsTags()) {
+
+        // Utilise les tags si le driver le supporte
+        if (method_exists($cache, 'tags')) {
             $cache = $cache->tags(['categories']);
         }
 
@@ -150,12 +152,12 @@ class CategoryService
     protected function clearCache(): void
     {
         $cache = Cache::store();
-        if ($cache->supportsTags()) {
-            $cache->tags(['categories'])->flush();
+
+        if (method_exists($cache, 'tags')) {
+            $cache->tags(['categories'])->clear();
         } else {
-            // Si pas de tags, on peut au moins essayer de vider les clés connues
-            // ou vider tout le cache si acceptable
-            Cache::flush();
+            // Si pas de tags, on vide tout le cache pour garantir la cohérence
+            $cache->clear();
         }
     }
 }
