@@ -40,6 +40,11 @@ class TestDatabaseSeeder extends Seeder
             'review.supprimer',
             'review.voir_historique',
             'review.feedback',
+            
+            // Media management
+            'media.upload',
+            'media.voir',
+            'media.supprimer',
         ];
 
         foreach ($permissions as $permission) {
@@ -89,7 +94,7 @@ class TestDatabaseSeeder extends Seeder
             } elseif ($roleName === 'journaliste') {
                 $role->givePermissionTo([
                     'article.creer', 'article.modifier', 'workflow.transition',
-                    'workflow.voir', 'article.voir_historique'
+                    'workflow.voir', 'article.voir_historique', 'media.upload', 'media.voir', 'media.supprimer'
                 ]);
             }
         }

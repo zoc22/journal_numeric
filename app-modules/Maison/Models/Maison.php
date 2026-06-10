@@ -68,6 +68,9 @@ class Maison extends Model
         'logo_url',
         'email_contact',
         'statut',
+        'continent',
+        'pays',
+        'ville',
         'validee_par',
         'validee_le',
     ];

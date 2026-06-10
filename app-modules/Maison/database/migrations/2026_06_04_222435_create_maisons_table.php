@@ -28,6 +28,11 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('logo_url', 500)->nullable();
 
+            // Localisation
+            $table->string('continent')->nullable()->index();
+            $table->string('pays')->nullable()->index();
+            $table->string('ville')->nullable()->index();
+
             // Contact principal
             $table->string('email_contact', 255);
 

@@ -197,6 +197,18 @@ class Article extends Model
     }
 
     /**
+     * Relation avec les médias via la table pivot
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function medias(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(\Modules\Media\Models\Media::class, 'article_media', 'article_id', 'media_id')
+                    ->withPivot('type_usage', 'metadonnees', 'ordre_affichage', 'est_actif')
+                    ->withTimestamps();
+    }
+
+    /**
      * Relation avec les assignations de review
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
