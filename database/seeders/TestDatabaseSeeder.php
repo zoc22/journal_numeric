@@ -45,6 +45,12 @@ class TestDatabaseSeeder extends Seeder
             'media.upload',
             'media.voir',
             'media.supprimer',
+
+            // Recruitment
+            'recruitment.creer_appel',
+            'recruitment.modifier_appel',
+            'recruitment.supprimer_appel',
+            'recruitment.publier_appel',
         ];
 
         foreach ($permissions as $permission) {
@@ -99,11 +105,13 @@ class TestDatabaseSeeder extends Seeder
             }
         }
 
-        // Assigner toutes les permissions au rôle admin_plateforme
-        /** @var Role|null $adminRole */
-        $adminRole = Role::where('name', 'admin_plateforme')->first();
-        if ($adminRole) {
-            $adminRole->givePermissionTo($permissions);
+        // Assigner toutes les permissions au rôle admin_plateforme et editeur_chef
+        foreach (['admin_plateforme', 'editeur_chef'] as $roleName) {
+            /** @var Role|null $role */
+            $role = Role::where('name', $roleName)->first();
+            if ($role) {
+                $role->syncPermissions($permissions);
+            }
         }
 
         // Créer l'utilisateur admin pour les tests

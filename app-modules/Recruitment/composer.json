@@ -1,0 +1,24 @@
+{
+	"name": "modules/recruitment",
+	"description": "",
+	"type": "library",
+	"version": "1.0",
+	"license": "proprietary",
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Modules\\Recruitment\\": "",
+			"Modules\\Recruitment\\Tests\\": "tests/",
+			"Modules\\Recruitment\\Database\\Factories\\": "database/factories/",
+			"Modules\\Recruitment\\Database\\Seeders\\": "database/seeders/"
+		}
+	},
+	"minimum-stability": "stable",
+	"extra": {
+		"laravel": {
+			"providers": [
+				"Modules\\Recruitment\\Providers\\RecruitmentServiceProvider"
+			]
+		}
+	}
+}
