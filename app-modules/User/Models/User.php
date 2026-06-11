@@ -43,7 +43,7 @@ use Modules\Core\Traits\HasAuditLog;
  * @property \Illuminate\Support\Carbon|null $deleted_at Date de suppression douce
  * @property-read string $full_name Nom complet de l'utilisateur
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles Rôles de l'utilisateur
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\User\Models\LoginHistory> $loginHistories Historique des connexions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Modules\Security\Models\LoginHistory> $loginHistories Historique des connexions
  */
 class User extends Authenticatable
 {
@@ -132,7 +132,7 @@ class User extends Authenticatable
      */
     public function loginHistories()
     {
-        return $this->hasMany(LoginHistory::class);
+        return $this->hasMany(\Modules\Security\Models\LoginHistory::class, 'utilisateur_id');
     }
 
     /**
@@ -143,56 +143,6 @@ class User extends Authenticatable
     public function membres()
     {
         return $this->hasMany(\Modules\Maison\Models\MembreMaison::class, 'utilisateur_id');
-    }
-
-    /**
-     * Enregistre une connexion réussie.
-     *
-     * Crée une entrée dans login_histories et met à jour les champs
-     * last_login_at et last_login_ip de l'utilisateur.
-     *
-     * @param string $ip Adresse IP d'où la connexion provient
-     * @param string|null $userAgent Agent utilisateur (navigateur, système d'exploitation)
-     * @return void
-     */
-    public function recordLogin(string $ip, ?string $userAgent): void
-    {
-        // Crée un enregistrement dans l'historique des connexions
-        LoginHistory::create([
-            'user_id' => $this->id,
-            'ip_address' => $ip,
-            'user_agent' => $userAgent,
-            'success' => true,
-        ]);
-
-        // Met à jour les informations de connexion de l'utilisateur
-        $this->update([
-            'last_login_at' => now(),
-            'last_login_ip' => $ip,
-        ]);
-    }
-
-    /**
-     * Enregistre une tentative de connexion échouée.
-     *
-     * Crée une entrée dans login_histories avec les détails de l'échec
-     * pour permettre une analyse des tentatives non autorisées.
-     *
-     * @param string $ip Adresse IP d'où la tentative provient
-     * @param string|null $userAgent Agent utilisateur
-     * @param string $reason Raison de l'échec (ex: "Invalid password", "Account locked")
-     * @return void
-     */
-    public function recordFailedLogin(string $ip, ?string $userAgent, string $reason): void
-    {
-        // Enregistre la tentative échouée dans l'historique
-        LoginHistory::create([
-            'user_id' => $this->id,
-            'ip_address' => $ip,
-            'user_agent' => $userAgent,
-            'success' => false,
-            'failure_reason' => $reason,
-        ]);
     }
 
     /**

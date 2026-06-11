@@ -21,6 +21,7 @@
         "modules/maison": "*",
         "modules/media": "*",
         "modules/recruitment": "*",
+        "modules/security": "*",
         "modules/user": "*",
         "modules/workflow": "*",
         "ramsey/uuid": "^4.9",
