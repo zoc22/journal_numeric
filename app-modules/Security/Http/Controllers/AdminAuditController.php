@@ -57,7 +57,7 @@ class AdminAuditController extends Controller implements HasMiddleware
 
         // (autres filtres similaires au contrôleur normal)
 
-        $perPage = min(request()->get('per_page', 100), 500);
+        $perPage = min(request()->input('per_page', 100), 500);
         $logs = $query->orderBy('created_at', 'desc')->paginate($perPage);
 
         return response()->json([
@@ -82,7 +82,7 @@ class AdminAuditController extends Controller implements HasMiddleware
         $logs = AuditLog::critiques()
             ->with(['utilisateur', 'maison'])
             ->orderBy('created_at', 'desc')
-            ->paginate(request()->get('per_page', 50));
+            ->paginate(request()->input('per_page', 50));
 
         return response()->json([
             'success' => true,
@@ -97,7 +97,7 @@ class AdminAuditController extends Controller implements HasMiddleware
      */
     public function clean(): JsonResponse
     {
-        $days = request()->get('days', config('security.logging.retention_days', 90));
+        $days = request()->input('days', config('security.logging.retention_days', 90));
 
         $deleted = AuditLog::where('created_at', '<', now()->subDays($days))->delete();
 

@@ -54,6 +54,10 @@ class CategoryTest extends TestCase
                 'couleur' => '#FF0000',
             ]);
 
+        if ($response->status() !== 201) {
+            fwrite(STDERR, $response->getContent() . "\n");
+        }
+
         $response->assertStatus(201);
         $response->assertJsonPath('success', true);
         $response->assertJsonPath('data.nom', 'Politique');

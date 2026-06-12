@@ -1,1 +1,0 @@
-Illuminate\Routing\Exceptions\UrlGenerationException: Missing required parameter for [Route: articles.show] [URI: api/articles/{article}] [Missing parameter: article].

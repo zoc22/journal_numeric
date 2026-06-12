@@ -125,7 +125,7 @@ class UserSession extends Model
     public function terminer(): bool
     {
         $this->is_active = false;
-        $this->logged_out_at = now();
+        $this->logged_out_at = \Illuminate\Support\Carbon::now();
 
         return $this->save();
     }
@@ -135,7 +135,7 @@ class UserSession extends Model
      */
     public function rafraichir(): bool
     {
-        $this->last_activity = now();
+        $this->last_activity = \Illuminate\Support\Carbon::now();
 
         return $this->save();
     }

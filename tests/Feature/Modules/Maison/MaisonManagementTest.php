@@ -92,13 +92,15 @@ class MaisonManagementTest extends TestCase
     {
         $role = Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'sanctum']);
 
-        $user = User::create([
-            'nom' => $nom,
-            'prenom' => $prenom,
-            'email' => "{$roleName}@example.com",
-            'password' => bcrypt('password'),
-            'is_active' => true,
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => "{$roleName}@example.com"],
+            [
+                'nom' => $nom,
+                'prenom' => $prenom,
+                'password' => bcrypt('password'),
+                'is_active' => true,
+            ]
+        );
 
         $user->assignRole($role);
 

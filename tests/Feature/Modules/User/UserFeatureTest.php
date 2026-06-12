@@ -37,11 +37,13 @@ class UserFeatureTest extends TestCase
      */
     public function test_can_create_user(): void
     {
-        $admin = User::create([
-            'nom' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'nom' => 'Admin',
+                'password' => Hash::make('password'),
+            ]
+        );
         $admin->assignRole('admin_plateforme');
 
         Sanctum::actingAs($admin, ['*']);
@@ -73,9 +75,6 @@ class UserFeatureTest extends TestCase
         ]);
 
         $user = User::where('email', 'newuser@example.com')->first();
-        if ($user && !($user instanceof User)) {
-            fwrite(STDERR, "DEBUG: \$user is of class " . get_class($user) . "\n");
-        }
         $this->assertTrue($user->hasRole('journaliste'));
     }
 
@@ -84,18 +83,16 @@ class UserFeatureTest extends TestCase
      */
     public function test_can_update_user(): void
     {
-        $admin = User::create([
-            'nom' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            ['nom' => 'Admin', 'password' => Hash::make('password')]
+        );
         $admin->assignRole('admin_plateforme');
 
-        $user = User::create([
-            'nom' => 'OldName',
-            'email' => 'old@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'old@example.com'],
+            ['nom' => 'OldName', 'password' => Hash::make('password')]
+        );
 
         Sanctum::actingAs($admin, ['*']);
 
@@ -107,10 +104,6 @@ class UserFeatureTest extends TestCase
         ];
 
         $response = $this->putJson("/api/users/{$user->id}", $updateData);
-
-        if ($response->status() !== 200) {
-            fwrite(STDERR, $response->getContent() . "\n");
-        }
 
         $response->assertStatus(200)
             ->assertJsonPath('success', true)
@@ -128,11 +121,10 @@ class UserFeatureTest extends TestCase
      */
     public function test_can_update_own_profile(): void
     {
-        $user = User::create([
-            'nom' => 'MyProfile',
-            'email' => 'profile@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'profile@example.com'],
+            ['nom' => 'MyProfile', 'password' => Hash::make('password')]
+        );
 
         Sanctum::actingAs($user, ['*']);
 
@@ -161,19 +153,20 @@ class UserFeatureTest extends TestCase
      */
     public function test_can_activate_and_deactivate_user(): void
     {
-        $admin = User::create([
-            'nom' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            ['nom' => 'Admin', 'password' => Hash::make('password')]
+        );
         $admin->assignRole('admin_plateforme');
 
-        $user = User::create([
-            'nom' => 'StatusUser',
-            'email' => 'status@example.com',
-            'password' => Hash::make('password'),
-            'is_active' => true,
-        ]);
+        $user = User::firstOrCreate(
+            ['email' => 'status@example.com'],
+            [
+                'nom' => 'StatusUser',
+                'password' => Hash::make('password'),
+                'is_active' => true,
+            ]
+        );
 
         Sanctum::actingAs($admin, ['*']);
 
@@ -197,18 +190,16 @@ class UserFeatureTest extends TestCase
      */
     public function test_can_list_users(): void
     {
-        $admin = User::create([
-            'nom' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            ['nom' => 'Admin', 'password' => Hash::make('password')]
+        );
         $admin->assignRole('admin_plateforme');
 
-        User::create([
-            'nom' => 'User1',
-            'email' => 'user1@example.com',
-            'password' => Hash::make('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'user1@example.com'],
+            ['nom' => 'User1', 'password' => Hash::make('password')]
+        );
 
         Sanctum::actingAs($admin, ['*']);
 

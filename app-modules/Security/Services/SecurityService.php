@@ -177,13 +177,14 @@ class SecurityService
      */
     public function updateSessionActivity(string $sessionId): bool
     {
+        /** @var UserSession|null $session */
         $session = UserSession::where('session_id', $sessionId)->first();
 
         if (!$session) {
             return false;
         }
 
-        $session->last_activity = now();
+        $session->last_activity = \Illuminate\Support\Carbon::now();
 
         return $session->save();
     }
@@ -196,6 +197,7 @@ class SecurityService
      */
     public function terminateSession(string $sessionId): bool
     {
+        /** @var UserSession|null $session */
         $session = UserSession::where('session_id', $sessionId)->first();
 
         if (!$session) {

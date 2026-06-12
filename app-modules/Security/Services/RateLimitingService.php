@@ -90,10 +90,23 @@ class RateLimitingService
     }
 
     /**
+     * Vérifie si trop de tentatives ont été effectuées
+     */
+    public function tooManyAttempts(string $key, int $maxAttempts): bool
+    {
+        return $this->rateLimiter->tooManyAttempts($key, $maxAttempts);
+    }
+
+    /**
+     * Enregistre une tentative
+     */
+    public function hit(string $key, int $decaySeconds = 60): void
+    {
+        $this->rateLimiter->hit($key, $decaySeconds);
+    }
+
+    /**
      * Obtient le nombre maximum de tentatives pour un type
-     *
-     * @param string $type
-     * @return int
      */
     protected function getMaxAttempts(string $type): int
     {

@@ -31,10 +31,11 @@ class ArticleTest extends TestCase
     #[Test]
     public function un_utilisateur_peut_lister_ses_articles()
     {
+        /** @var \Illuminate\Contracts\Auth\Authenticatable $user */
         $user = User::factory()->create();
         
         Article::factory()->count(3)->create([
-            'auteur_id' => $user->id,
+            'auteur_id' => $user->getAuthIdentifier(),
             'maison_id' => tenant('id'),
         ]);
 

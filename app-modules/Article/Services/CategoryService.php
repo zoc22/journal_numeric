@@ -114,7 +114,7 @@ class CategoryService
         $cache = Cache::store();
 
         // Utilise les tags si le driver le supporte
-        if (method_exists($cache, 'tags')) {
+        if ($cache->getStore() instanceof \Illuminate\Cache\TaggableStore) {
             $cache = $cache->tags(['categories']);
         }
 
@@ -153,11 +153,11 @@ class CategoryService
     {
         $cache = Cache::store();
 
-        if (method_exists($cache, 'tags')) {
-            $cache->tags(['categories'])->clear();
+        if ($cache->getStore() instanceof \Illuminate\Cache\TaggableStore) {
+            $cache->tags(['categories'])->flush();
         } else {
             // Si pas de tags, on vide tout le cache pour garantir la cohérence
-            $cache->clear();
+            $cache->flush();
         }
     }
 }

@@ -161,6 +161,17 @@ class ArticleController extends Controller implements HasMiddleware
      */
     public function show(Article $article, Request $request): JsonResponse
     {
+        // Vérification de l'isolation par maison d'édition
+        $user = $request->user();
+        if ($user && !$user->hasRole(['super_admin', 'admin_plateforme'])) {
+            if ($article->maison_id !== tenant('id')) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Article non trouvé dans cette maison d\'édition.',
+                ], Response::HTTP_NOT_FOUND);
+            }
+        }
+
         // Incrémente les vues si l'article est publié
         if ($article->estPublie() && !$request->user()) {
             $article->incrementVues();

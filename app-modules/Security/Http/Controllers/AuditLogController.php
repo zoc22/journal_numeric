@@ -87,11 +87,11 @@ class AuditLogController extends Controller implements HasMiddleware
         }
 
         // Tri
-        $orderBy = request()->get('order_by', 'created_at');
-        $orderDir = request()->get('order_dir', 'desc');
+        $orderBy = request()->input('order_by', 'created_at');
+        $orderDir = request()->input('order_dir', 'desc');
         $query->orderBy($orderBy, $orderDir);
 
-        $perPage = min(request()->get('per_page', 50), 200);
+        $perPage = min(request()->input('per_page', 50), 200);
         $logs = $query->paginate($perPage);
 
         return response()->json([
