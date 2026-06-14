@@ -15,13 +15,6 @@ use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\UserController;
 use Modules\User\Http\Controllers\RoleController;
 use Modules\User\Http\Controllers\PermissionController;
-use Modules\User\Http\Controllers\GoogleAuthController;
-
-// ========== ROUTES AUTHENTIFICATION GOOGLE ==========
-Route::prefix('api/auth')->group(function () {
-    Route::get('google', [GoogleAuthController::class, 'redirectToGoogle']);
-    Route::get('google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
-});
 
 Route::middleware(['api', 'auth:sanctum', 'tenant'])->prefix('api')->group(function () {
 

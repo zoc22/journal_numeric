@@ -24,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->appendToGroup('web', [
             \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
         ]);
+        $middleware->appendToGroup('api', [
+            \Stancl\Tenancy\Middleware\InitializeTenancyByDomain::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

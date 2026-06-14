@@ -14,8 +14,8 @@ use Modules\Security\Http\Controllers\AuthController;
 |--------------------------------------------------------------------------
 */
 
-// Routes d'authentification publiques
-Route::prefix('api')->group(function () {
+// Routes d'authentification publiques (context tenant)
+Route::middleware(['api', 'tenant'])->prefix('api')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/password/forgot', [AuthController::class, 'forgotPassword']);

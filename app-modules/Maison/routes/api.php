@@ -18,9 +18,9 @@ use Modules\Maison\Http\Controllers\MembreController;
 */
 
 // =====================================================================
-// Routes authentifiées
+// Routes authentifiées - Contexte TENANT
 // =====================================================================
-Route::middleware(['api', 'auth:sanctum'])->prefix('api/maison')->group(function () {
+Route::middleware(['api', 'auth:sanctum', 'tenant'])->prefix('api/maison')->group(function () {
 
     // =================================================================
     // Routes pour le gestionnaire de la maison (Éditeur en Chef)
@@ -47,6 +47,12 @@ Route::middleware(['api', 'auth:sanctum'])->prefix('api/maison')->group(function
         // Statistiques de la maison
         Route::get('/stats', [MaisonController::class, 'stats'])->name('maison.stats');
     });
+});
+
+// =====================================================================
+// Routes authentifiées - Contexte CENTRAL
+// =====================================================================
+Route::middleware(['api', 'auth:sanctum'])->prefix('api/maison')->group(function () {
 
     // =================================================================
     // Routes pour l'admin plateforme

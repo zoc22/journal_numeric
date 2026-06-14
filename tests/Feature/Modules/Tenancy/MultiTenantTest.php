@@ -30,10 +30,10 @@ class MultiTenantTest extends TestCase
 
         // Crée deux tenants
         $this->tenant1 = Tenant::create(['id' => 'maison-1']);
-        $this->tenant1->domains()->create(['domain' => 'maison1.localhost']);
+        $this->tenant1->domains()->create(['domain' => 'maison1.test']);
 
         $this->tenant2 = Tenant::create(['id' => 'maison-2']);
-        $this->tenant2->domains()->create(['domain' => 'maison2.localhost']);
+        $this->tenant2->domains()->create(['domain' => 'maison2.test']);
 
         // Crée des utilisateurs dans chaque tenant (ou maison)
         // Note: En environnement de test single-db, les utilisateurs sont partagés
@@ -58,10 +58,8 @@ class MultiTenantTest extends TestCase
     public function les_donnees_sont_isolees_entre_tenants()
     {
         // Tenant 1
-        tenancy()->initialize($this->tenant1);
-
         $response = $this->actingAs($this->user1)
-            ->postJson('/api/articles', [
+            ->postJson('http://maison1.test/api/articles', [
                 'titre' => 'Article Tenant 1',
                 'contenu' => str_repeat('Contenu Tenant 1. ', 20),
             ]);
@@ -69,10 +67,8 @@ class MultiTenantTest extends TestCase
         $response->assertStatus(201);
 
         // Tenant 2
-        tenancy()->initialize($this->tenant2);
-
         $response = $this->actingAs($this->user2)
-            ->getJson('/api/articles');
+            ->getJson('http://maison2.test/api/articles');
 
         $response->assertStatus(200);
         $this->assertCount(0, $response->json('data'));
@@ -85,11 +81,9 @@ class MultiTenantTest extends TestCase
      */
     public function un_utilisateur_ne_peut_pas_acceder_aux_donnees_d_un_autre_tenant()
     {
-        tenancy()->initialize($this->tenant1);
-
         // Crée un article dans tenant 1
         $articleResponse = $this->actingAs($this->user1)
-            ->postJson('/api/articles', [
+            ->postJson('http://maison1.test/api/articles', [
                 'titre' => 'Article Privé',
                 'contenu' => str_repeat('Contenu privé. ', 20),
             ]);
@@ -97,10 +91,8 @@ class MultiTenantTest extends TestCase
         $articleId = $articleResponse->json('data.id');
 
         // Tentative d'accès depuis tenant 2
-        tenancy()->initialize($this->tenant2);
-
         $response = $this->actingAs($this->user2)
-            ->getJson("/api/articles/{$articleId}");
+            ->getJson("http://maison2.test/api/articles/{$articleId}");
 
         // L'article n'existe pas dans tenant 2 (Grâce au scoping manuel dans ArticleController)
         $response->assertStatus(404);

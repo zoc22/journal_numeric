@@ -12,7 +12,7 @@ use Modules\Recruitment\Http\Controllers\CallForApplicationController;
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['api'])->prefix('api/recruitment')->group(function () {
+Route::middleware(['api', 'tenant'])->prefix('api/recruitment')->group(function () {
     // Routes publiques pour les appels à candidatures
     Route::prefix('calls')->group(function () {
         Route::get('/', [CallForApplicationController::class, 'index']);

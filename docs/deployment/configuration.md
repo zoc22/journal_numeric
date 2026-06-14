@@ -36,3 +36,18 @@ Configurez vos accès SMTP pour l'envoi de notifications et la récupération de
 - `GOOGLE_CLIENT_ID`
 - `GOOGLE_CLIENT_SECRET`
 - `GOOGLE_REDIRECT_URI` : ${APP_URL}/api/auth/google/callback
+
+## Tests avec Postman
+
+Pour tester l'API multi-tenant avec Postman, vous devez prendre en compte l'identification par domaine.
+
+### 1. Routes Centrales
+Utilisez l'URL directe (ex: `http://127.0.0.1:8000/api/tenants`). Aucun header particulier n'est requis.
+
+### 2. Routes Tenants (Maison d'édition)
+Pour accéder aux routes d'une maison (ex: `api/articles`), vous devez simuler le domaine de la maison.
+- **URL** : `http://localhost:8000/api/articles`
+- **Header** : `Host` = `nom-maison.localhost` (ex: `maison1.localhost`)
+
+Cela permet au middleware `InitializeTenancyByDomain` d'identifier la maison d'édition et de charger la base de données correspondante.
+

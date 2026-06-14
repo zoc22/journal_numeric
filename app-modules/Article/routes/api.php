@@ -17,7 +17,7 @@ use Modules\Article\Http\Controllers\CategoryController;
 |
 */
 
-Route::middleware(['api'])->prefix('api')->group(function () {
+Route::middleware(['api', 'tenant'])->prefix('api')->group(function () {
     
     // Routes des articles
     Route::prefix('articles')->group(function () {
