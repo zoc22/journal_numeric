@@ -1,111 +1,159 @@
-:root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+@import "tailwindcss";
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@theme {
+  /* --- CONFIGURATION DU THÈME (Ancien tailwind.config.js) --- */
+  
+  /* Tes couleurs personnalisées (Ajuste les codes hex si nécessaire) */
+  --color-ink-50: #fafafe;
+  --color-ink-100: #f2f2f7;
+  --color-ink-400: #a1a1aa;
+  --color-ink-500: #71717a;
+  --color-ink-600: #52525b;
+  --color-ink-800: #18181b;
+  --color-ink-900: #09090b;
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --color-brand: #4f46e5;
+  --color-brand-50: #eeebff;
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+  /* Ta police pour les titres */
+  --font-display: "Poppins", "Inter", sans-serif;
+
+  /* Ton ombre personnalisée */
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  /* Animation Marquee intégrée nativement */
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-body {
-  margin: 0;
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
+/* --- STYLES DE BASE (Ancien @layer base) --- */
+* {
   box-sizing: border-box;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+body {
+  @apply font-sans bg-ink-50 text-ink-800;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @apply font-display;
+}
+
+
+/* --- COMPOSANTS & UTILITAIRES (Ancien @layer components) --- */
+
+@utility gradient-hero {
+  background:
+    radial-gradient(at 20% 20%, rgba(79,70,229,.12) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(124,58,237,.10) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(5,150,105,.08) 0px, transparent 50%),
+    linear-gradient(180deg, #fafafe 0%, #f2f2f7 100%);
+}
+
+@utility gradient-dark {
+  background:
+    radial-gradient(at 30% 20%, rgba(79,70,229,.25) 0px, transparent 50%),
+    radial-gradient(at 70% 80%, rgba(124,58,237,.18) 0px, transparent 50%),
+    #0d0d18;
+}
+
+@utility text-gradient {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed 60%, #e11d48);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility grain {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .4;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .35 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+@utility scrollbar-thin {
+  &::-webkit-scrollbar { width: 6px; height: 6px; }
+  &::-webkit-scrollbar-thumb { background: rgba(0,0,0,.15); border-radius: 3px; }
+}
+
+@utility scrollbar-none {
+  &::-webkit-scrollbar { display: none; }
+  scrollbar-width: none;
+}
+
+@utility ring-focus {
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79,70,229,.25);
+    border-color: #4f46e5;
   }
 }
-p {
-  margin: 0;
+
+/* Workflow status badges */
+@utility status-brouillon { @apply bg-ink-100 text-ink-600; }
+@utility status-soumis    { @apply bg-brand-50 text-brand; }
+@utility status-en_review { @apply bg-amber-50 text-amber-700; }
+@utility status-valide    { @apply bg-emerald-50 text-emerald-700; }
+@utility status-publie    { @apply bg-green-100 text-green-800; }
+@utility status-rejete    { @apply bg-red-50 text-red-700; }
+@utility status-archive   { @apply bg-ink-100 text-ink-500; }
+
+/* Sidebar Nav Item */
+@utility nav-item {
+  @apply flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink-600 hover:bg-ink-100 hover:text-ink-900 transition-colors;
+  
+  &.active {
+    @apply bg-brand-50 text-brand font-semibold;
+  }
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* Card global */
+@utility card {
+  @apply bg-white rounded-2xl shadow-soft border border-ink-100;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Marquee track utility */
+@utility marquee-track {
+  @apply animate-marquee;
+}
+
+
+/* --- TEXT EDITOR (Tiptap ProseMirror) --- */
+.ProseMirror {
+  @apply outline-none min-h-[400px] text-ink-800 leading-relaxed;
+
+  & p { @apply mb-4; }
+  & h1 { @apply font-display text-3xl font-bold mb-4 mt-6; }
+  & h2 { @apply font-display text-2xl font-bold mb-3 mt-5; }
+  & h3 { @apply font-display text-xl font-semibold mb-3 mt-4; }
+  & blockquote { @apply border-l-4 border-brand pl-4 italic text-ink-600 my-4; }
+  & code { @apply font-mono bg-ink-100 px-1.5 py-0.5 rounded text-sm; }
+  & pre { @apply font-mono bg-ink-900 text-ink-50 p-4 rounded-xl overflow-x-auto my-4; }
+  & pre code { @apply bg-transparent p-0; }
+  & ul { @apply list-disc pl-6 mb-4 space-y-1; }
+  & ol { @apply list-decimal pl-6 mb-4 space-y-1; }
+  & a { @apply text-brand underline; }
+  & img { @apply rounded-xl max-w-full my-4; }
+  
+  & p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    @apply text-ink-400 pointer-events-none float-left h-0;
+  }
 }
